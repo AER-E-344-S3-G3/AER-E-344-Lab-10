@@ -33,7 +33,7 @@ throat_idx = 5;
 % Pressure tap immediately before the shock.
 shock_idx = 10;
 
-% Pressure taps are columns [3,16] in the data file.
+% Pressure taps are columns [3,17] in the data file.
 pressure_tap_columns = 3:17;
 
 % Only create graphs for states 2, 4, 5, and 6.
@@ -51,12 +51,16 @@ options = optimset('Display','off');
 %% Equations
 % Area ratio solved for 0
 AbyAstar_eqn = @(A,Astar,M) (5 + M.^2).^3 ./ (6^3 .* M) - A ./ Astar; % []
+
 M_2_normal_shock_eqn = @(M_1) sqrt((1 + (gamma - 1) / 2 * M_1^2) ...
     / (gamma * M_1^2 - (gamma - 1) / 2)); % []
+
 Astar_eqn = @(M, A) A .* 6^3 .* M ./ (5 + M.^2).^3; % [length^2]
+
 P_t_eqn = @(P, M) P ...
     .* (1 + (gamma - 1) ./ 2 ...
     .* M.^2).^(gamma ./ (gamma - 1)); % [pressure]
+
 total_static_eqn = @(P_t, P, M) ...
     (1 + (gamma - 1) ./ 2 .* M.^2).^(gamma ./ (gamma - 1)) - P_t ./ P; % []
 
@@ -188,7 +192,7 @@ P_theory([2,4,5,6],:) = fsolve(@(P) ...
 
 P_theory_nozzle = P_theory(:,2:end); % [psi]
 
-%% Plotting and Output
+%% Plotting
 % Plot measured pressure (static and total) as a function of distance along
 % the nozzle axis for states 2, 4, 5, and 6.
 for i = printed_states
@@ -277,6 +281,24 @@ for i = printed_states
         "Location","northwest");
     grid on;
     saveas(gcf, figure_dir + title_str + ".svg");
+end
+
+%% Tables
+tables = cell(1,length(state_idx));
+for i = 1:length(state_idx)
+    tables{i} = table;
+    tables{i}.DownstreamDistance = downstream_dist';
+    tables{i}.P_ms = P_ms(i,:)';
+    tables{i}.P_theory = P_theory(i,:)';
+    tables{i}.P_mt = P_mt(i,:)';
+    tables{i}.P_t_theory = P_t_theory(i,:)';
+    tables{i}.M_m = M_m(i,:)';
+    tables{i}.M_theory = M_theory(i,:)';
+    path = convertStringsToChars(figure_dir + i + "-" + plot_titles(i) ...
+        + ".tex");
+    table2latex(tables{i},path, ...
+        {'D_{throat}','P_{measured}','P_{theory}','P_{0,measured}', ...
+        'P_{0,theory}','M_{measured}','M_{theory}'});
 end
 
 %% Clean Up
