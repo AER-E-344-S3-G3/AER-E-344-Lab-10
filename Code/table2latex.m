@@ -1,4 +1,4 @@
-function table2latex(T, filename, column_names)
+function table2latex(T, filename, column_names, sigfigs, ignore_col)
     if nargin < 2
         filename = 'table.tex';
         fprintf(['Output path is not defined. The table will be ' ...
@@ -41,8 +41,12 @@ function table2latex(T, filename, column_names)
             end
             while iscell(value), value = value{1,1}; end
             if isinf(value), value = '$\infty$'; end
-            temp{1,col} = convertStringsToChars("\num{" ...
-                + num2str(value) + "}");
+            if ismember(col,ignore_col)
+                temp{1,col} = '';
+            else
+                temp{1,col} = convertStringsToChars("\num{" ...
+                    + sigfig(value,sigfigs(col)) + "}");
+            end
         end
         if ~isempty(row_names)
             temp = [row_names{row}, temp];
