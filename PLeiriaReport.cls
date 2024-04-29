@@ -255,6 +255,7 @@
 
 % Configure siunitx
 \sisetup{per-mode=symbol}
+\DeclareSIUnit\bar{bar}
 
 % Configure step autoref
 \renewcommand{\itemautorefname}{Step}

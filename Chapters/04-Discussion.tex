@@ -1,18 +1,17 @@
 \chapter{Discussion}
 \label{cp:discussion}
 
-Questions need to be answered:
+For the first critical condition and for the state when there is a shock in the nozzle, the static and total theoretical pressure distributions match the measured data very well, although they had a slight tendency to under-predict the static pressure and over-predict the total pressure. For the second and third critical conditions, the theoretical static pressure still matches well, but the total pressure is wildly different. In the second critical condition, the theory under-predicts the static pressure and significantly over-predicts the total pressure. In the third critical condition, the situation is reversed with slight \textit{over}-predictions of the static pressure and significant \textit{under}-predictions of the total pressure.
 
-\begin{itemize}
-  \item What can you say about the predicted pressures in comparison to the measured pressures? That is, does the theory under or over‐predict the wall pressure?
-  Overall, the graphs of the measured pressure values matched the shape and form of the theoretical values (see \autoref{fig:measured_vs_theoretical_pressure}, but the theoretical pressures under-predict the measured static and total pressures for the 1st Critical Condition, 2nd Critical Condition, and when there is a normal shock in the nozzle. However, the measured total pressure was much lower than the predicted theoretical value for the 3rd Critical Condition.
-  \item Give some possible reasons for the differences.
-  The theory does not consider factors that lead to a difference between the measured pressure and the predicted pressure. Assumptions made by the theory include ideal gas behavior, steady-state conditions, and a frictionless flow. Also, the theory ignores boundary layer effects, which greatly influence the flow behavior near the nozzle's walls. Lastly, the flow can present non-uniformity, affecting the pressure measurements. As the Mach number of the flow increases, these factors have a greater impact on the flow characteristics, leading measured values to be more distant from theoretical values.
-  \item What might this mean for the prediction of other flow quantities such as Mach number, temperature, etc.?
-  The derivation of the other flow quantities, such as the Mach number and the temperature, uses the values measured for pressure. Thus, these quantities will also tend to have different values from those calculated from the theory.
-  \item Point out any interesting anomalies you might see in the measured data.
-  3rd Critical Condition total pressure
-\end{itemize}
+Assumptions made by the theory include ideal gas behavior, steady-state conditions, and a friction-less flow. Also, the theory ignores boundary layer effects, which greatly influence the flow behavior near the nozzle's walls, especially at supersonic speeds where shocks may be present near the walls of the nozzle. Friction and boundary layer effects near the walls can slow down flow and increase pressure. Lastly, the flow can present non-uniformity, affecting the pressure measurements. As the Mach number of the flow increases, these factors have a greater impact on the flow characteristics, leading theoretical results to be more distant from the measured values.
 
+The derivation of the other flow quantities, such as the density and temperature, are related to the Mach number and pressure. Thus, these quantities will also vary from those calculated from the theory, especially when the reservoir pressure increases such that the flow surpasses the second critical condition.
 
+The measured pressure distribution at the second critical condition increases at the end of the nozzle which differs from the theoretical distribution which decreases. Since the pressure increases at around \num{1.25}in. away from the nozzle throat, the shock is not exactly at the end of the nozzle, but rather slightly before.
+
+This offset is also observed when there is a shock in the nozzle. According to \autoref{fig:schlieren_overlay}, the normal shock should have occurred between taps \num{11} and \num{12}, but the pressure data (see \autoref{tab:state_5_data}) clearly shows the drop in pressure occurs between taps \num{10} and \num{11}. This seems to indicate that either the data acquisition software and the camera were not synced properly or there was some error in the experimental setup.
+
+We also noted that pressure tap four consistently read values close to \qty{0}{psi}. Based on the surrounding data, this seemed erroneous. In our data, we interpolated the values for pressure tap four using the values from pressure taps \numlist{3;5}.
+
+Lastly, our theoretical Mach number predictions grossly differ from the measured Mach numbers at the first pressure tap for all the states except the first critical condition. This is because we assumed the flow was subsonic as it entered the nozzle, but at pressure tap one, the Mach number was actually supersonic. As it entered the convergent section of the de Laval nozzle, it decelerated until it reached subsonic speeds by pressure tap two. Correcting this would have been as trivial as re-calculating the theoretical Mach number at pressure tap one using a supersonic initial value in the \verb|fsolve()| function.
   
